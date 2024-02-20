@@ -1,28 +1,29 @@
 import React, { useState } from "react";
 
-const ProductEntry = ({save, cancel}) => {
+const ProductEntry = ({ save, cancel }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    save({name, description});
+    save({ name, description });
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="name">
-        Name
-        <input type="text" id="name" value={name}
+      <div className="form-group">
+        <label htmlFor="name">Name</label>
+        <input type="text" className="form-control" id="name" value={name}
           onChange={(e) => setName(e.target.value)} />
-      </label>
-      <label htmlFor="description">
-        Description
-        <input type="text" id="description" value={description}
+      </div>
+      <div className="form-group">
+        <label htmlFor="description">Description</label>
+        <input type="text" className="form-control" id="description" value={description}
           onChange={(e) => setDescription(e.target.value)} />
-      </label>
-      <button type="submit">Submit</button>
-      <button type="button" onClick={cancel}>Cancel</button>
+
+      </div>
+      <button type="submit" className="btn btn-primary">Submit</button>
+      <button type="button" className="btn btn-secondary" onClick={cancel}>Cancel</button>
     </form>
   )
 }

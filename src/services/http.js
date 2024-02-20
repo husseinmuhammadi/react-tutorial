@@ -1,6 +1,7 @@
 // This file contains the functions to make HTTP requests to the server
 
 const statusText = (status) => {
+  console.log("Status", status);
   switch (status) {
     case 400:
       return "Bad Request";
@@ -32,7 +33,8 @@ const request = async (url, options) => {
   }
 
   if (!response.ok) {
-    return Promise.reject(new Error(statusText(response.status)));
+    let error = await response.json();    
+    return Promise.reject(new Error(`${error.title} - ${error.detail}`));
   }
 
   return response;
@@ -59,7 +61,7 @@ const replaceIdInUrl = (url, id) => {
   return url.replace("{id}", id);
 }
 
-export const getOne = async (url, id) => {  
+export const getOne = async (url, id) => {
   url = replaceIdInUrl(url, id);
   return request(url, {
     method: "GET",
@@ -73,13 +75,13 @@ export const post = async (url, data) => {
   });
 }
 
-export const remove = async (url, id) => { 
+export const remove = async (url, id) => {
   console.log("Removing", url, id);
   try {
     url = replaceIdInUrl(url, id);
   } catch (e) {
     return Promise.reject(e);
-  } 
+  }
   return request(url, {
     method: "DELETE",
   });
